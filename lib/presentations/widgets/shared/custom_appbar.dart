@@ -21,7 +21,7 @@ class CustomAppBar extends StatelessWidget {
               "Cinemapedia",
               style: titleStyle,
             ),
-            Spacer(),
+            const Spacer(),
             IconButton(onPressed: (){}, icon: const Icon(Icons.search))
           ],
         ),
