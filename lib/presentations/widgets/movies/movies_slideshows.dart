@@ -7,7 +7,6 @@ import '../../../domain/entities/movie.dart';
 class MoviesSlideshows extends StatelessWidget {
   const MoviesSlideshows({super.key, required this.movies});
   final List<Movie> movies;
-
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;

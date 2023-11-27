@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:cinema_app/config/helpers/human_format.dart';
 import 'package:flutter/material.dart';
 
 import '../../../domain/entities/movie.dart';
@@ -77,9 +78,9 @@ class _Slide extends StatelessWidget {
             children: [
               Icon(Icons.star_half, color: Colors.yellow.shade800,),
               const SizedBox(width: 3,),
-              Text(movie.voteAverage.toString(), style: textStyle.bodyMedium?.copyWith(color: Colors.yellow.shade800)),
-              SizedBox(width: 10),
-              Text(movie.popularity.toString(), style: textStyle.bodySmall,)
+              Text(HumanFormats.number(movie.voteAverage), style: textStyle.bodyMedium?.copyWith(color: Colors.yellow.shade800)),
+              const SizedBox(width: 10),
+              Text(HumanFormats.number(movie.popularity), style: textStyle.bodySmall,)
             ],
           ),
         ],
