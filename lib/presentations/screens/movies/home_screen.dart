@@ -29,11 +29,19 @@ class _HomeViewState extends ConsumerState<_HomeView> {
     super.initState();
 
     ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+    ref.read(popularMoviesProvider.notifier).loadNextPage();
+    ref.read(topRatedMoviesProvider.notifier).loadNextPage();
+    ref.read(upcomingMoviesProvider.notifier).loadNextPage();
+    
+
   }
 
   @override
   Widget build(BuildContext context) {
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
+    final popularMovies = ref.watch(popularMoviesProvider);
+    final topRatedMovies = ref.watch(topRatedMoviesProvider);
+    final upcomingMovies = ref.watch(upcomingMoviesProvider);
     final slideShowMovies = ref.watch(movieSlideshowProvider);
 
     return CustomScrollView(
@@ -58,11 +66,36 @@ class _HomeViewState extends ConsumerState<_HomeView> {
                     loadNextPage: () => ref
                         .read(nowPlayingMoviesProvider.notifier)
                         .loadNextPage(),
+                  ),
+                  MovieHorizontalListview(
+                    movies: popularMovies,
+                    title: "Populares",
+                    subTitle: "Todos los dias",
+                    loadNextPage: () => ref
+                        .read(popularMoviesProvider.notifier)
+                        .loadNextPage(),
+                  ),
+
+                  MovieHorizontalListview(
+                    movies: upcomingMovies,
+                    title: "Prontamente",
+                    subTitle: "Jueves",
+                    loadNextPage: () => ref
+                        .read(upcomingMoviesProvider.notifier)
+                        .loadNextPage(),
+                  ),
+                  MovieHorizontalListview(
+                    movies: topRatedMovies,
+                    title: "Top Rated",
+                    subTitle: "Fin de Semana",
+                    loadNextPage: () => ref
+                        .read(topRatedMoviesProvider.notifier)
+                        .loadNextPage(),
                   )
                 ],
               );
             },
-            childCount: 2
+            childCount: 1
           ),
         ),
       
