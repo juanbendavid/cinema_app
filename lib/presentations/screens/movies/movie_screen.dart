@@ -26,19 +26,79 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
 
     if (movie == null) {
       return const Scaffold(
-        body: Center(
-          child: CircularProgressIndicator(
-            strokeWidth: 2,
-          ),
-        ),
-      );
+          body: Center(child: CircularProgressIndicator(strokeWidth: 2)));
     }
 
     return Scaffold(
       body: CustomScrollView(
-        physics: const ClampingScrollPhysics(),
-        slivers: [_CustomSliverAppBar(movie: movie)],
+        slivers: [
+          _CustomSliverAppBar(movie: movie),
+          SliverList(
+              delegate: SliverChildBuilderDelegate(
+                  (context, index) => _MovieDetails(movie: movie),
+                  childCount: 1))
+        ],
       ),
+    );
+  }
+}
+
+class _MovieDetails extends StatelessWidget {
+  final Movie movie;
+  const _MovieDetails({super.key, required this.movie});
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final textStyle = Theme.of(context).textTheme;
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+          child: Row(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.network(movie.posterPath, width: size.width * 0.3),
+              ),
+              const SizedBox(
+                width: 12,
+              ),
+              Expanded(
+                child: SizedBox(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        movie.title,
+                        style: textStyle.titleLarge,
+                      ),
+                      Text(movie.overview)
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Wrap(
+            children: [
+              ...movie.genreIds.map((gender) => Container(
+                margin: EdgeInsets.only(right: 10),
+                child: Chip(
+                      label: Text(gender),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                    ),
+              ))
+            ],
+          ),
+        ),
+        const SizedBox(
+          height: 100,
+        ),
+      ],
     );
   }
 }
@@ -83,8 +143,7 @@ class _CustomSliverAppBar extends StatelessWidget {
                   gradient: LinearGradient(
                       begin: Alignment.topLeft,
                       stops: [0.0, 0.3],
-                      colors: [Colors.black,
-                       Colors.transparent])),
+                      colors: [Colors.black, Colors.transparent])),
             )),
           ],
         ),
